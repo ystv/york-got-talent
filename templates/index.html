@@ -1,0 +1,27 @@
+{% extends "base.html" %} {% block content %}
+<div class="p-8">
+  <div class="max-w-3xl mx-auto p-8 rounded shadow-lg">
+    <h1 class="text-2xl font-bold mb-2 text-center">
+      YSTV - York's Got Talent
+    </h1>
+    <p class="mb-2">Manual control interface for the buzzers.</p>
+    <div class="grid grid-cols-2 gap-4 mb-2">
+      {% for buzzer_status in buzzers %} {% if buzzer_status %}
+      <button class="bg-red-300 rounded" disabled>
+        Buzzer {{ loop.index }}
+      </button>
+      {% else %}
+      <button
+        class="bg-blue-100 rounded hover:bg-blue-400"
+        hx-get="/buzzer/{{ loop.index  }}"
+        hx-swap="outerHTML"
+      >
+        Buzzer {{ loop.index }}
+      </button>
+      {% endif %} {% endfor %}
+    </div>
+    <button hx-get="/reset" hx-swap="none">Reset<button>
+  </div>
+</div>
+
+{% endblock content %}
