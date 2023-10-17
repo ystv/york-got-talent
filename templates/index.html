@@ -5,22 +5,10 @@
       YSTV - York's Got Talent
     </h1>
     <p class="mb-2">Manual control interface for the buzzers.</p>
-    <div class="grid grid-cols-2 gap-4 mb-2 justify-items-center">
-      {% for buzzer_status in buzzers %} {% if buzzer_status %}
-      <button class="bg-red-300 rounded h-8 w-32" disabled>
-        Buzzer {{ loop.index }}
-      </button>
-      {% else %}
-      <button
-        class="bg-blue-100 rounded hover:bg-blue-400 h-8 w-32"
-        hx-get="/buzzer/{{ loop.index  }}"
-        hx-swap="outerHTML"
-      >
-        Buzzer {{ loop.index }}
-      </button>
-      {% endif %} {% endfor %}
+    <div class="grid grid-cols-2 gap-4 mb-2 justify-items-center" hx-get="/buzzers" hx-trigger="load, every 1s">
     </div>
-    <button hx-get="/reset" hx-swap="none" hx-confirm="Are you sure you want to reset all the buzzers?">Reset<button>
+    <hr class="mb-4" />
+    <button class="bg-yellow-300 font-bold rounded px-4 py-2" hx-get="/reset" hx-swap="none" hx-confirm="Are you sure you want to reset all the buzzers?">Reset<button>
   </div>
 </div>
 

@@ -9,7 +9,7 @@ css = Bundle("src/main.css", output="dist/main.css")
 assets.register("css", css)
 css.build()
 
-num_buzzers = 6
+num_buzzers = 4
 buzzers = [False] * num_buzzers
 
 
@@ -23,7 +23,16 @@ def buzzer(id):
     print(f"Pressed buzzer {id}")
     global buzzers
     buzzers[id - 1] = True
+
+    # Send OSC message to QLab to update the graphics
+
     return render_template("buzzer.html", id=id)
+
+
+@app.route('/buzzers')
+def buzzersRoute():
+    global buzzers
+    return render_template("buzzers.html", buzzers=buzzers)
 
 
 @app.route('/reset')
@@ -32,10 +41,10 @@ def reset():
     global buzzers
     buzzers = [False] * num_buzzers
 
-    return Response(headers={
-        'HX-Refresh': 'true'
-    })
+    # Send OSC message to QLab telling it to reset the graphics
+
+    return Response(status=204)
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=3000)
+    app.run(debug=True, port=3000, host="0.0.0.0")
